@@ -1,4 +1,6 @@
-import React from "react";
+"use client";
+
+import { useScrollReveal } from "@/hooks/useScrollReveal";
 
 interface FeatureItem {
   title: string;
@@ -36,16 +38,19 @@ const columnTwoFeatures: FeatureItem[] = [
 ];
 
 export default function Features() {
+  const [sectionRef, isVisible] = useScrollReveal<HTMLElement>(0.1);
+
   return (
     <section
+      ref={sectionRef}
       id="features"
       className="w-full bg-[#F5F0E8] text-[#141414] border-b border-[#D4CEC4]"
     >
       <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-24 md:py-32">
         {/* Section Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 md:gap-16 pb-16 md:pb-24">
-          <div>
-            <span className="chapter-label block text-xs uppercase tracking-[0.12em] font-medium text-[#7A756D] mb-4 md:mb-6">
+          <div className={`reveal-left ${isVisible ? "visible" : ""}`}>
+            <span className="chapter-label block mb-4 md:mb-6">
               02 / THE EXTENSION
             </span>
             <h2 className="text-5xl md:text-7xl tracking-[-0.03em] text-[#141414] leading-[1.08]">
@@ -54,19 +59,19 @@ export default function Features() {
             </h2>
           </div>
 
-          <p className="max-w-md text-base md:text-lg text-[#7A756D] leading-relaxed md:pb-2">
+          <p className={`reveal-right ${isVisible ? "visible" : ""} max-w-md text-base md:text-lg text-[#7A756D] leading-relaxed md:pb-2`}>
             One extension. Total control over how every website looks and feels. No code required.
           </p>
         </div>
 
-        {/* Feature Grid: Asymmetric 2-column layout (55% / 45%), offset by 80px on desktop */}
+        {/* Feature Grid */}
         <div className="grid grid-cols-1 md:grid-cols-[55fr_45fr] gap-6 md:gap-8 items-start">
-          {/* Column 1 (~55% width) */}
+          {/* Column 1 */}
           <div className="flex flex-col gap-6 md:gap-8">
-            {columnOneFeatures.map((feature) => (
+            {columnOneFeatures.map((feature, i) => (
               <div
                 key={feature.title}
-                className="border border-[#D4CEC4] p-8 md:p-10 lg:p-12 transition-colors duration-200 hover:border-[#141414]/40"
+                className={`reveal-scale ${isVisible ? "visible" : ""} stagger-${i + 1} feature-box border border-[#D4CEC4] p-8 md:p-10 lg:p-12`}
               >
                 <h3 className="text-2xl font-bold font-sans text-[#141414] tracking-tight">
                   {feature.title}
@@ -78,12 +83,12 @@ export default function Features() {
             ))}
           </div>
 
-          {/* Column 2 (~45% width, offset down by 80px) */}
+          {/* Column 2 (offset down) */}
           <div className="flex flex-col gap-6 md:gap-8 md:pt-20">
-            {columnTwoFeatures.map((feature) => (
+            {columnTwoFeatures.map((feature, i) => (
               <div
                 key={feature.title}
-                className="border border-[#D4CEC4] p-8 md:p-10 lg:p-12 transition-colors duration-200 hover:border-[#141414]/40"
+                className={`reveal-scale ${isVisible ? "visible" : ""} stagger-${i + 4} feature-box border border-[#D4CEC4] p-8 md:p-10 lg:p-12`}
               >
                 <h3 className="text-2xl font-bold font-sans text-[#141414] tracking-tight">
                   {feature.title}

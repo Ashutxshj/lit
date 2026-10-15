@@ -75,7 +75,7 @@ export default function Navbar() {
         <div className="flex items-center gap-3">
           <Link
             href="#waitlist"
-            className="inline-flex items-center justify-center rounded-[5px] bg-[#141414] px-4 py-2 text-sm font-medium text-[#F5F0E8] hover:bg-black transition-colors duration-150"
+            className="inline-flex items-center justify-center rounded-[5px] bg-[#141414] px-4 py-2 text-sm font-medium text-[#F5F0E8] hover:bg-[#E8612E] transition-colors duration-200"
           >
             Join Waitlist
           </Link>

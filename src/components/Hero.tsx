@@ -16,7 +16,6 @@ export default function Hero() {
     }
 
     setStatus("submitting");
-    // Simulate early access waitlist submission
     setTimeout(() => {
       setStatus("success");
       setMessage("You're on the list! We'll notify you when early access is ready.");
@@ -25,39 +24,38 @@ export default function Hero() {
   };
 
   return (
-    <section id="hero" className="relative w-full bg-[#F5F0E8] text-[#141414] py-24 md:py-40">
+    <section id="hero" className="relative w-full bg-[#F5F0E8] text-[#141414] pt-32 pb-24 md:pt-44 md:pb-40 overflow-hidden">
       <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
-        {/* Chapter label at top */}
+        {/* Chapter label */}
         <div className="mb-10 md:mb-16">
-          <span className="text-[11px] sm:text-xs font-medium uppercase tracking-[0.14em] text-[#7A756D] font-sans">
+          <span className="chapter-label hero-line block">
             01 / THE VISION
           </span>
         </div>
 
-        {/* Two-column layout: 60% headline on desktop, 40% description + form positioned lower */}
+        {/* Two-column layout */}
         <div className="flex flex-col lg:flex-row justify-between items-start gap-12 lg:gap-16">
-          {/* Main Headline (60% on desktop) */}
+          {/* Headline 60% */}
           <div className="w-full lg:w-[60%] shrink-0">
-            <h1 className="font-sans font-bold text-6xl sm:text-7xl lg:text-8xl tracking-[-0.03em] leading-[0.96] text-[#141414]">
-              <span className="block">Why does every</span>
-              <span className="block">screen look</span>
-              <span className="block font-serif italic font-normal text-[#E8612E]">
+            <h1 className="font-sans font-bold text-[3.25rem] sm:text-7xl lg:text-[5.5rem] xl:text-[6.5rem] tracking-[-0.03em] leading-[0.92]">
+              <span className="hero-line block">Why does every</span>
+              <span className="hero-line block">screen look</span>
+              <span className="hero-line block font-serif italic font-normal text-[#E8612E]">
                 the same?
               </span>
             </h1>
           </div>
 
-          {/* Description & Waitlist Form (40% on desktop, positioned lower) */}
+          {/* Description + Form 40% */}
           <div className="w-full lg:w-[40%] flex flex-col justify-end lg:pt-24 xl:pt-28">
-            <p className="text-base sm:text-lg leading-relaxed text-[#7A756D] font-sans">
+            <p className="hero-desc text-base sm:text-lg leading-relaxed text-[#7A756D] font-sans max-w-md">
               LIT is a browser customization layer that lets you completely
               personalize how the web looks and feels. Visual modes, animated
               effects, custom wallpapers, glowing hyperlinks, fonts, colors,
               and site-specific redesigns.
             </p>
 
-            {/* Waitlist email form */}
-            <form onSubmit={handleSubmit} id="waitlist" className="mt-8 md:mt-10 w-full">
+            <form onSubmit={handleSubmit} id="waitlist" className="hero-form mt-8 md:mt-10 w-full">
               <div className="flex flex-col sm:flex-row items-stretch gap-3">
                 <input
                   type="email"
@@ -68,19 +66,19 @@ export default function Hero() {
                     if (status === "error") setStatus("idle");
                   }}
                   placeholder="Enter your email"
-                  className="h-12 w-full flex-1 px-4 text-sm sm:text-base bg-[#F5F0E8] border border-[#D4CEC4] text-[#141414] placeholder:text-[#7A756D] font-sans focus:outline-none focus:border-[#141414] transition-colors"
+                  className="h-12 w-full flex-1 px-4 text-sm sm:text-base bg-[#F5F0E8] border border-[#D4CEC4] text-[#141414] placeholder:text-[#7A756D] font-sans focus:outline-none focus:border-[#141414] transition-colors duration-200"
                   aria-label="Email address for early access waitlist"
                   disabled={status === "submitting"}
                 />
                 <button
                   type="submit"
                   disabled={status === "submitting"}
-                  className="h-12 px-6 sm:px-7 bg-[#141414] text-[#F5F0E8] text-sm sm:text-base font-medium font-sans hover:bg-[#2e2e2e] active:scale-[0.99] transition-all whitespace-nowrap cursor-pointer shrink-0 disabled:opacity-75 disabled:cursor-not-allowed"
+                  className="h-12 px-6 sm:px-7 bg-[#141414] text-[#F5F0E8] text-sm sm:text-base font-medium font-sans transition-all duration-200 whitespace-nowrap cursor-pointer shrink-0 disabled:opacity-75 disabled:cursor-not-allowed hover:bg-[#E8612E] active:scale-[0.98]"
                 >
                   {status === "submitting"
                     ? "Joining..."
                     : status === "success"
-                    ? "Joined ✓"
+                    ? "You're in"
                     : "Get Early Access"}
                 </button>
               </div>
@@ -103,9 +101,9 @@ export default function Hero() {
           </div>
         </div>
 
-        {/* Section separator */}
+        {/* Separator */}
         <div
-          className="mt-20 md:mt-32 w-full border-t border-[#D4CEC4]"
+          className="separator-grow mt-20 md:mt-32 w-full border-t border-[#D4CEC4]"
           role="separator"
           aria-hidden="true"
         />
