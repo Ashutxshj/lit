@@ -1,52 +1,63 @@
 "use client";
 
+import Link from "next/link";
+
 export default function Footer() {
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   return (
-    <footer className="w-full bg-[#F5F0E8] border-t border-[#D4CEC4]">
-      <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-16 md:py-20">
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 sm:gap-4">
-          {/* Left: Brand and year */}
-          <span className="text-xs md:text-sm text-[#7A756D] font-sans">
-            LIT 2026
-          </span>
+    <footer className="w-full bg-[#EAE3D5] text-[#121212] border-t border-[#D8D2C5]">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 py-12 md:py-16">
+        <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+          
+          {/* Brand Info */}
+          <div>
+            <span className="font-sans font-black tracking-widest uppercase text-base">
+              LIT
+            </span>
+            <p className="text-xs text-[#736E65] mt-1">
+              The visual personal layer for the web. Be different. Be Lit.
+            </p>
+          </div>
 
-          {/* Center links */}
-          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-8">
-            <a
-              href="https://twitter.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-xs md:text-sm text-[#7A756D] hover:text-[#141414] transition-colors duration-150 font-sans cta-underline"
+          {/* Legal and Project Links */}
+          <div className="flex flex-wrap items-center gap-6 text-xs font-mono text-[#736E65]">
+            <Link
+              href="/dashboard"
+              className="hover:text-[#121212] transition-colors"
             >
-              Twitter/X
-            </a>
+              Theme Studio
+            </Link>
+            <Link
+              href="/privacy"
+              className="hover:text-[#121212] transition-colors"
+            >
+              Privacy Policy
+            </Link>
+            <Link
+              href="/terms"
+              className="hover:text-[#121212] transition-colors"
+            >
+              Terms of Service
+            </Link>
             <a
               href="https://github.com/Ashutxshj/lit"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-xs md:text-sm text-[#7A756D] hover:text-[#141414] transition-colors duration-150 font-sans cta-underline"
+              className="hover:text-[#121212] transition-colors"
             >
-              GitHub
+              GitHub ↗
             </a>
-            <a
-              href="/privacy"
-              className="text-xs md:text-sm text-[#7A756D] hover:text-[#141414] transition-colors duration-150 font-sans cta-underline"
+            <button
+              onClick={scrollToTop}
+              type="button"
+              className="hover:text-[#121212] transition-colors uppercase tracking-wider cursor-pointer underline"
             >
-              Privacy Policy
-            </a>
+              Top ↑
+            </button>
           </div>
-
-          {/* Right: Back to top */}
-          <button
-            onClick={scrollToTop}
-            className="text-xs md:text-sm text-[#7A756D] hover:text-[#141414] transition-colors duration-150 font-sans cta-underline cursor-pointer"
-          >
-            Back to top
-          </button>
         </div>
       </div>
     </footer>

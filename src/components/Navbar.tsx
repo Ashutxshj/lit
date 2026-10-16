@@ -8,9 +8,10 @@ interface NavLink {
   href: string;
 }
 
-const navLinks: NavLink[] = [
-  { name: "Features", href: "#features" },
-  { name: "Themes", href: "#marketplace" },
+const NAV_LINKS: NavLink[] = [
+  { name: "Redesigns", href: "#features" },
+  { name: "Engine", href: "#engine" },
+  { name: "Marketplace", href: "#marketplace" },
   { name: "Pricing", href: "#pricing" },
 ];
 
@@ -20,7 +21,7 @@ export default function Navbar() {
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 10);
+      setIsScrolled(window.scrollY > 15);
     };
 
     handleScroll();
@@ -40,63 +41,75 @@ export default function Navbar() {
 
   return (
     <header
-      className={`sticky top-0 z-50 w-full border-b border-[#D4CEC4] transition-colors duration-200 ${
+      className={`sticky top-0 z-50 w-full border-b transition-colors duration-200 ${
         isScrolled
-          ? "bg-[#F5F0E8]/95 backdrop-blur-sm"
-          : "bg-[#F5F0E8]"
+          ? "bg-[#F4EFE6]/95 backdrop-blur-md border-[#D8D2C5]"
+          : "bg-[#F4EFE6] border-[#D8D2C5]"
       }`}
     >
-      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-        {/* Left: LIT logo text in bold sans-serif, all caps, tracked wide */}
-        <Link
-          href="/"
-          className="font-sans text-xl sm:text-2xl font-bold uppercase tracking-[0.25em] text-[#141414] hover:text-[#E8612E] transition-colors duration-150 select-none"
-        >
-          LIT
-        </Link>
+      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-10">
+        
+        {/* Brand Logo */}
+        <div className="flex items-center gap-6">
+          <Link
+            href="/"
+            className="font-sans text-xl sm:text-2xl font-black uppercase tracking-[0.22em] text-[#121212] hover:text-[#1649FF] transition-colors select-none"
+          >
+            LIT
+          </Link>
+          <span className="hidden sm:inline-block font-mono text-[10px] uppercase tracking-widest px-2 py-0.5 rounded-[1px] bg-[#EAE3D5] text-[#736E65]">
+            LAYER V1.0
+          </span>
+        </div>
 
-        {/* Center: Navigation links - Features, Themes, Pricing */}
+        {/* Center: Navigation Links */}
         <nav
           className="hidden md:flex items-center gap-8"
           aria-label="Main navigation"
         >
-          {navLinks.map((link) => (
+          {NAV_LINKS.map((link) => (
             <Link
               key={link.name}
               href={link.href}
-              className="text-sm font-medium text-[#141414] hover:text-[#E8612E] transition-colors duration-150"
+              className="text-xs font-mono font-medium uppercase tracking-wider text-[#121212] hover:text-[#1649FF] transition-colors"
             >
               {link.name}
             </Link>
           ))}
         </nav>
 
-        {/* Right: 'Join Waitlist' button & mobile hamburger toggle */}
+        {/* Right: Actions */}
         <div className="flex items-center gap-3">
           <Link
-            href="#waitlist"
-            className="inline-flex items-center justify-center rounded-[5px] bg-[#141414] px-4 py-2 text-sm font-medium text-[#F5F0E8] hover:bg-[#E8612E] transition-colors duration-200"
+            href="/dashboard"
+            className="hidden sm:inline-flex items-center justify-center rounded-[2px] bg-[#121212] px-3.5 py-1.5 text-xs font-mono font-semibold uppercase tracking-wider text-[#F4EFE6] hover:bg-[#1649FF] transition-colors"
           >
-            Join Waitlist
+            Theme Studio ↗
           </Link>
+
+          <a
+            href="#waitlist"
+            className="inline-flex items-center justify-center rounded-[2px] border border-[#121212] px-3.5 py-1.5 text-xs font-mono font-semibold uppercase tracking-wider text-[#121212] hover:bg-[#121212] hover:text-[#F4EFE6] transition-colors"
+          >
+            Waitlist
+          </a>
 
           {/* Mobile hamburger menu toggle */}
           <button
             type="button"
             onClick={() => setIsMobileMenuOpen((prev) => !prev)}
-            className="inline-flex md:hidden items-center justify-center p-2 rounded-[5px] text-[#141414] hover:text-[#E8612E] transition-colors duration-150 focus:outline-none"
+            className="inline-flex md:hidden items-center justify-center p-2 rounded-[2px] text-[#121212] hover:text-[#1649FF] transition-colors focus:outline-none"
             aria-expanded={isMobileMenuOpen}
             aria-label="Toggle navigation menu"
           >
             <svg
-              className="h-6 w-6"
+              className="h-5 w-5"
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
               strokeWidth="2"
               strokeLinecap="round"
               strokeLinejoin="round"
-              aria-hidden="true"
             >
               {isMobileMenuOpen ? (
                 <>
@@ -115,29 +128,32 @@ export default function Navbar() {
         </div>
       </div>
 
-      {/* Mobile menu: slides down, shows links vertically, clean and simple */}
-      <div
-        className={`md:hidden overflow-hidden transition-all duration-300 ease-in-out border-t border-[#D4CEC4] ${
-          isScrolled ? "bg-[#F5F0E8]/95 backdrop-blur-sm" : "bg-[#F5F0E8]"
-        } ${
-          isMobileMenuOpen
-            ? "max-h-60 opacity-100"
-            : "max-h-0 opacity-0 pointer-events-none !border-t-0"
-        }`}
-      >
-        <div className="flex flex-col space-y-4 px-6 py-5">
-          {navLinks.map((link) => (
+      {/* Mobile Drawer */}
+      {isMobileMenuOpen && (
+        <div className="md:hidden border-t border-[#D8D2C5] bg-[#F4EFE6] px-6 py-6 space-y-4">
+          <div className="flex flex-col space-y-3">
+            {NAV_LINKS.map((link) => (
+              <Link
+                key={link.name}
+                href={link.href}
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="text-sm font-mono uppercase tracking-wider text-[#121212] hover:text-[#1649FF]"
+              >
+                {link.name}
+              </Link>
+            ))}
+          </div>
+          <div className="pt-4 border-t border-[#D8D2C5] flex flex-col gap-2">
             <Link
-              key={link.name}
-              href={link.href}
+              href="/dashboard"
               onClick={() => setIsMobileMenuOpen(false)}
-              className="text-base font-medium text-[#141414] hover:text-[#E8612E] transition-colors duration-150"
+              className="w-full py-2.5 text-center bg-[#121212] text-[#F4EFE6] text-xs font-mono font-semibold uppercase tracking-wider rounded-[2px]"
             >
-              {link.name}
+              Launch Theme Studio ↗
             </Link>
-          ))}
+          </div>
         </div>
-      </div>
+      )}
     </header>
   );
 }

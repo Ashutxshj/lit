@@ -1,172 +1,243 @@
 "use client";
 
-import { useScrollReveal } from "@/hooks/useScrollReveal";
+import React, { useState } from "react";
+import Link from "next/link";
 
-interface ThemeItem {
+interface MarketplaceTheme {
   id: string;
   name: string;
   creator: string;
-  gradientStyle: string;
-  tag: "Free" | "Premium";
-  installs: string;
+  category: "all" | "cyber" | "oled" | "editorial" | "retro";
+  downloads: string;
+  rating: string;
+  tag: "FREE" | "PRO";
+  palette: string[];
+  gradientPreview: string;
+  siteTarget: string;
+  description: string;
 }
 
-const themes: ThemeItem[] = [
+const MARKETPLACE_THEMES: MarketplaceTheme[] = [
   {
     id: "sunset-glow",
-    name: "Sunset Glow",
+    name: "Sunset Ember",
     creator: "@alexperry",
-    gradientStyle: "linear-gradient(135deg, #E8612E 0%, #F5A623 100%)",
-    tag: "Free",
-    installs: "4.8k installs",
+    category: "retro",
+    downloads: "5.4k",
+    rating: "4.9",
+    tag: "FREE",
+    palette: ["#141416", "#E85D26", "#F5A623", "#F4EFE6"],
+    gradientPreview: "linear-gradient(135deg, #1C1310 0%, #E85D26 100%)",
+    siteTarget: "YouTube & Reddit",
+    description: "Warm gradient ambient lighting for late night media sessions with glowing orange hyperlinks.",
   },
   {
-    id: "deep-ocean",
-    name: "Deep Ocean",
+    id: "matrix-core",
+    name: "Matrix Glitch",
     creator: "@marcus_dev",
-    gradientStyle: "linear-gradient(135deg, #1A237E 0%, #4A5FC1 100%)",
-    tag: "Premium",
-    installs: "2.4k installs",
+    category: "cyber",
+    downloads: "8.1k",
+    rating: "5.0",
+    tag: "PRO",
+    palette: ["#05080E", "#00FFCC", "#10B981", "#1E293B"],
+    gradientPreview: "linear-gradient(135deg, #070D18 0%, #00FFCC 100%)",
+    siteTarget: "GitHub & StackOverflow",
+    description: "High-voltage cyberpunk neon syntax with green glowing diff trees and jetbrains mono override.",
   },
   {
-    id: "forest-calm",
-    name: "Forest Calm",
-    creator: "@olivia_nordic",
-    gradientStyle: "linear-gradient(135deg, #2D5F3E 0%, #68B87A 100%)",
-    tag: "Free",
-    installs: "1.2k installs",
+    id: "atelier-linen",
+    name: "Atelier Paper",
+    creator: "@olivia_paris",
+    category: "editorial",
+    downloads: "3.2k",
+    rating: "4.8",
+    tag: "FREE",
+    palette: ["#F4EFE6", "#EAE3D5", "#1649FF", "#121212"],
+    gradientPreview: "linear-gradient(135deg, #F4EFE6 0%, #D8D2C5 100%)",
+    siteTarget: "ChatGPT & Medium",
+    description: "Generous margins, Cormorant Garamond serif headers, and high-legibility linen background.",
   },
   {
-    id: "midnight-mono",
-    name: "Midnight Mono",
-    creator: "@kuro_studio",
-    gradientStyle: "linear-gradient(135deg, #141414 0%, #3A3A3A 100%)",
-    tag: "Premium",
-    installs: "3.9k installs",
+    id: "pitch-black-oled",
+    name: "Pitch Black OLED",
+    creator: "@kuro_tokyo",
+    category: "oled",
+    downloads: "12.7k",
+    rating: "5.0",
+    tag: "PRO",
+    palette: ["#000000", "#121212", "#D4FF00", "#F8FAFC"],
+    gradientPreview: "linear-gradient(135deg, #000000 0%, #1A1A1A 100%)",
+    siteTarget: "Universal 100+ Sites",
+    description: "Absolute #000000 zero-power OLED dark mode with acid yellow accent highlights.",
   },
 ];
 
 export default function Marketplace() {
-  const [sectionRef, isVisible] = useScrollReveal<HTMLElement>(0.08);
+  const [filter, setFilter] = useState<string>("all");
+  const [installedTheme, setInstalledTheme] = useState<string | null>(null);
+
+  const filteredThemes = filter === "all"
+    ? MARKETPLACE_THEMES
+    : MARKETPLACE_THEMES.filter((t) => t.category === filter);
+
+  const handleInstall = (themeId: string) => {
+    setInstalledTheme(themeId);
+    setTimeout(() => {
+      setInstalledTheme(null);
+    }, 2500);
+  };
 
   return (
-    <section
-      ref={sectionRef}
-      id="marketplace"
-      className="w-full bg-[#F5F0E8] text-[#141414] py-24 md:py-32 border-b border-[#D4CEC4]"
-    >
-      <div className="max-w-6xl mx-auto px-6 md:px-12">
-        {/* Header */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-end mb-16 md:mb-20">
-          <div className={`reveal-left ${isVisible ? "visible" : ""} lg:col-span-7`}>
-            <p className="chapter-label mb-4 md:mb-5">
-              04 / THE MARKETPLACE
-            </p>
-            <h2 className="heading-tight text-5xl md:text-7xl font-sans font-bold leading-[1.06] tracking-[-0.03em] text-[#141414]">
-              Themes from <br />
-              <span className="serif-italic font-serif italic font-normal">
-                the community.
-              </span>
+    <section id="marketplace" className="w-full bg-[#F4EFE6] text-[#121212] py-24 md:py-36 border-b border-[#D8D2C5]">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10">
+        
+        {/* Section Header */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 pb-14 border-b border-[#D8D2C5]">
+          <div>
+            <span className="chapter-label block mb-4">
+              CHAPTER 04 / THE MARKETPLACE
+            </span>
+            <h2 className="text-4xl sm:text-6xl md:text-7xl tracking-[-0.035em] text-[#121212] leading-[1.05]">
+              <span className="block font-sans font-bold">Themes from</span>
+              <span className="block font-serif italic font-normal">the community.</span>
             </h2>
           </div>
-          <div className={`reveal-right ${isVisible ? "visible" : ""} lg:col-span-5 lg:pb-2`}>
-            <p className="text-base md:text-lg text-[#7A756D] leading-relaxed max-w-md">
-              Browse, install, and share custom themes. Premium users unlock
-              exclusive redesigns, wallpapers, and creator content.
-            </p>
-          </div>
+
+          <p className="max-w-md text-base md:text-lg text-[#736E65] leading-relaxed md:pb-2">
+            Browse, test, and install community designs. Or publish your own and earn royalties from creator downloads.
+          </p>
         </div>
 
-        {/* Theme Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
-          {themes.map((theme, i) => (
-            <article
-              key={theme.id}
-              className={`reveal-scale ${isVisible ? "visible" : ""} stagger-${i + 1} theme-card bg-[#F5F0E8] border border-[#D4CEC4] rounded-[3px] overflow-hidden cursor-pointer`}
+        {/* Filter Pills */}
+        <div className="flex flex-wrap items-center gap-2 pt-8 pb-10">
+          {[
+            { id: "all", label: "All Themes" },
+            { id: "cyber", label: "Cyberpunk Matrix" },
+            { id: "oled", label: "OLED Pitch-Black" },
+            { id: "editorial", label: "Warm Editorial" },
+            { id: "retro", label: "Retro Synthwave" },
+          ].map((cat) => (
+            <button
+              key={cat.id}
+              type="button"
+              onClick={() => setFilter(cat.id)}
+              className={`px-4 py-2 text-xs font-mono uppercase tracking-wider rounded-[2px] transition-colors cursor-pointer border ${
+                filter === cat.id
+                  ? "bg-[#121212] text-[#F4EFE6] border-[#121212]"
+                  : "bg-white text-[#736E65] border-[#D8D2C5] hover:border-[#121212] hover:text-[#121212]"
+              }`}
             >
-              {/* Preview strip */}
-              <div
-                className="h-[200px] w-full p-4 flex flex-col justify-between relative select-none"
-                style={{ background: theme.gradientStyle }}
-              >
-                {/* Mini browser bar */}
-                <div className="flex items-center gap-2 pb-2 border-b border-white/20">
-                  <div className="flex items-center gap-1.5">
-                    <span className="w-2 h-2 rounded-full bg-white/45" />
-                    <span className="w-2 h-2 rounded-full bg-white/30" />
-                    <span className="w-2 h-2 rounded-full bg-white/30" />
-                  </div>
-                  <div className="h-4 px-2.5 rounded-[2px] bg-black/25 text-white/85 font-mono text-[10px] flex items-center tracking-tight">
-                    lit://themes/{theme.id}
-                  </div>
-                </div>
-
-                {/* Wireframe content */}
-                <div className="flex-1 pt-3 flex flex-col justify-between">
-                  <div className="space-y-2">
-                    <div className="flex items-center gap-2">
-                      <div className="w-4 h-4 rounded-[1px] bg-white/35 flex items-center justify-center text-[8px] text-white font-bold">L</div>
-                      <div className="h-1.5 w-16 bg-white/50 rounded-[1px]" />
-                    </div>
-                    <div className="h-3 w-3/5 bg-white/85 rounded-[1px]" />
-                    <div className="h-1.5 w-2/5 bg-white/40 rounded-[1px]" />
-                  </div>
-                  <div className="grid grid-cols-3 gap-2 pt-2">
-                    <div className="h-11 rounded-[2px] bg-white/20 border border-white/15 p-1.5 flex flex-col justify-between">
-                      <div className="h-1 w-3/4 bg-white/60 rounded-[1px]" />
-                      <div className="h-1 w-1/2 bg-white/40 rounded-[1px]" />
-                    </div>
-                    <div className="h-11 rounded-[2px] bg-white/25 border border-white/20 p-1.5 flex flex-col justify-between">
-                      <div className="h-1 w-2/3 bg-white/70 rounded-[1px]" />
-                      <div className="h-1 w-1/3 bg-white/45 rounded-[1px]" />
-                    </div>
-                    <div className="h-11 rounded-[2px] bg-white/20 border border-white/15 p-1.5 flex flex-col justify-between">
-                      <div className="h-1 w-4/5 bg-white/60 rounded-[1px]" />
-                      <div className="h-1 w-2/5 bg-white/40 rounded-[1px]" />
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Theme info */}
-              <div className="p-6">
-                <div className="mb-4">
-                  <h3 className="text-lg font-bold text-[#141414] tracking-tight">
-                    {theme.name}
-                  </h3>
-                  <p className="text-xs text-[#7A756D] mt-0.5">
-                    by {theme.creator}
-                  </p>
-                </div>
-
-                <div className="flex items-center justify-between pt-4 border-t border-[#D4CEC4]">
-                  <span
-                    className={`text-[11px] font-semibold uppercase tracking-wider px-2.5 py-1 rounded-[2px] ${
-                      theme.tag === "Premium"
-                        ? "bg-[#E8612E] text-white"
-                        : "bg-transparent text-[#141414] border border-[#D4CEC4]"
-                    }`}
-                  >
-                    {theme.tag}
-                  </span>
-                  <span className="text-xs text-[#7A756D] font-medium flex items-center gap-1.5">
-                    <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2" aria-hidden="true">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                    </svg>
-                    {theme.installs}
-                  </span>
-                </div>
-              </div>
-            </article>
+              {cat.label}
+            </button>
           ))}
         </div>
 
-        {/* Notice */}
-        <div className={`reveal ${isVisible ? "visible" : ""} mt-14 md:mt-16 text-center`}>
-          <p className="text-sm md:text-base text-[#7A756D] font-medium">
-            Marketplace launching soon. Create themes from day one.
-          </p>
+        {/* Theme Cards Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-10">
+          {filteredThemes.map((theme) => {
+            const isInstalled = installedTheme === theme.id;
+            return (
+              <article
+                key={theme.id}
+                className="editorial-card border border-[#D8D2C5] bg-[#FAF7F2] p-6 sm:p-8 flex flex-col justify-between rounded-[2px]"
+              >
+                <div>
+                  {/* Top Preview Banner */}
+                  <div
+                    className="w-full h-44 rounded-[2px] p-4 flex flex-col justify-between text-white relative overflow-hidden border border-black/10"
+                    style={{ background: theme.gradientPreview }}
+                  >
+                    <div className="flex items-center justify-between text-xs font-mono">
+                      <span className="px-2 py-0.5 rounded-[1px] bg-black/40 backdrop-blur-xs">
+                        {theme.siteTarget}
+                      </span>
+                      <span
+                        className={`px-2 py-0.5 rounded-[1px] font-bold text-[10px] ${
+                          theme.tag === "PRO"
+                            ? "bg-[#D4FF00] text-black"
+                            : "bg-white text-black"
+                        }`}
+                      >
+                        {theme.tag}
+                      </span>
+                    </div>
+
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-1.5">
+                        {theme.palette.map((color, i) => (
+                          <span
+                            key={i}
+                            className="w-4 h-4 rounded-full border border-white/20 shadow-xs"
+                            style={{ backgroundColor: color }}
+                            title={color}
+                          />
+                        ))}
+                      </div>
+                      <span className="text-[11px] font-mono opacity-80">★ {theme.rating} ({theme.downloads})</span>
+                    </div>
+                  </div>
+
+                  {/* Theme Info */}
+                  <div className="mt-6 flex items-start justify-between gap-4">
+                    <div>
+                      <h3 className="font-sans text-2xl font-bold text-[#121212] tracking-tight">
+                        {theme.name}
+                      </h3>
+                      <p className="text-xs text-[#736E65] font-mono mt-0.5">
+                        by {theme.creator} · verified creator
+                      </p>
+                    </div>
+                  </div>
+
+                  <p className="mt-3 text-sm text-[#736E65] leading-relaxed">
+                    {theme.description}
+                  </p>
+                </div>
+
+                {/* Actions */}
+                <div className="mt-8 pt-4 border-t border-[#D8D2C5] flex items-center justify-between gap-4">
+                  <Link
+                    href={`/dashboard?theme=${theme.id}`}
+                    className="text-xs font-semibold font-mono uppercase tracking-wider text-[#121212] hover:text-[#1649FF] transition-colors"
+                  >
+                    Test in Studio ↗
+                  </Link>
+
+                  <button
+                    type="button"
+                    onClick={() => handleInstall(theme.id)}
+                    className={`px-4 py-2 text-xs font-semibold font-mono uppercase tracking-wider rounded-[2px] transition-colors cursor-pointer border ${
+                      isInstalled
+                        ? "bg-[#10B981] text-white border-[#10B981]"
+                        : "bg-[#121212] text-[#F4EFE6] border-[#121212] hover:bg-[#1649FF] hover:border-[#1649FF]"
+                    }`}
+                  >
+                    {isInstalled ? "Applied to Layer ✓" : "Install Theme"}
+                  </button>
+                </div>
+              </article>
+            );
+          })}
         </div>
+
+        {/* Creator Callout */}
+        <div className="mt-16 p-8 border border-[#D8D2C5] bg-[#EAE3D5] rounded-[2px] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
+          <div>
+            <h4 className="font-sans text-lg font-bold text-[#121212]">
+              Are you a digital designer or CSS craftsman?
+            </h4>
+            <p className="text-sm text-[#736E65] mt-1">
+              Publish your themes on the LIT Marketplace. Keep 85% of premium sales directly via Stripe or Razorpay.
+            </p>
+          </div>
+          <Link
+            href="/dashboard"
+            className="px-5 py-2.5 bg-[#121212] text-[#F4EFE6] text-xs font-mono font-semibold uppercase tracking-wider rounded-[2px] hover:bg-[#1649FF] transition-colors shrink-0"
+          >
+            Open Creator Studio ↗
+          </Link>
+        </div>
+
       </div>
     </section>
   );
